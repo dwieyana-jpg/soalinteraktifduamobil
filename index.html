@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Mobil A & B — Soal Interaktif</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f0f4fa 0%, #d9e2ef 100%);
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      margin: 0;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 36px;
+      padding: 24px 20px 28px;
+      box-shadow: 0 25px 40px -10px rgba(0, 20, 40, 0.35), 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 580px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      transition: all 0.2s;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #0b2b44;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    h1 span {
+      background: #1e4b6e;
+      color: white;
+      font-size: 0.9rem;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .sub {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #3d5a73;
+      margin-bottom: 24px;
+      font-weight: 400;
+      border-bottom: 1px dashed #b8cadc;
+      padding-bottom: 14px;
+    }
+
+    .tombol-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      border: none;
+      background: #ffffff;
+      padding: 14px 26px;
+      border-radius: 60px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 10px 18px -8px rgba(0, 30, 60, 0.25), 0 2px 6px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      flex: 1 1 auto;
+      min-width: 140px;
+      color: #1e3a5f;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      letter-spacing: 0.3px;
+    }
+
+    .btn i {
+      font-style: normal;
+      font-size: 1.4rem;
+    }
+
+    .btn-soal {
+      background: #ffffff;
+      color: #1d4e7a;
+    }
+
+    .btn-penyelesaian {
+      background: #1e4b6e;
+      color: white;
+      box-shadow: 0 12px 18px -6px #0e2e48;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .panel {
+      background: #ffffffdd;
+      backdrop-filter: blur(4px);
+      border-radius: 28px;
+      padding: 20px 18px;
+      margin-top: 8px;
+      border: 1px solid #ffffff;
+      box-shadow: inset 0 1px 4px #ffffff, 0 6px 14px rgba(0, 20, 30, 0.08);
+      transition: opacity 0.2s;
+    }
+
+    .soal-text {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #1b2e41;
+    }
+
+    .soal-text strong {
+      color: #0b2b44;
+      background: #e5eef9;
+      padding: 1px 6px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+
+    .penyelesaian-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .langkah {
+      background: #e9f0f8;
+      padding: 14px 16px;
+      border-radius: 22px;
+      font-size: 1rem;
+      line-height: 1.6;
+      border-left: 6px solid #2a6b9c;
+      color: #122b3f;
+    }
+
+    .langkah code {
+      background: #cddef0;
+      padding: 2px 8px;
+      border-radius: 30px;
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: #003153;
+    }
+
+    .hasil-akhir {
+      background: #1e4b6e;
+      color: white;
+      padding: 16px 18px;
+      border-radius: 22px;
+      font-weight: 600;
+      text-align: center;
+      font-size: 1.2rem;
+      box-shadow: 0 10px 14px -8px #082031;
+    }
+
+    .hasil-akhir span {
+      background: #ffd966;
+      color: #0b2b44;
+      padding: 6px 14px;
+      border-radius: 40px;
+      margin: 0 4px;
+      display: inline-block;
+    }
+
+    /* Animasi container */
+    .animasi-container {
+      background: #cbdae9;
+      border-radius: 100px;
+      padding: 14px 12px 10px;
+      margin: 10px 0 6px;
+      box-shadow: inset 0 6px 10px rgba(0, 0, 0, 0.1), 0 2px 4px white;
+    }
+
+    .jalan {
+      position: relative;
+      height: 70px;
+      background: #7f8c8d;
+      background: linear-gradient(180deg, #95a5a6 0%, #7f8c8d 100%);
+      border-radius: 40px;
+      overflow: hidden;
+      box-shadow: inset 0 8px 12px rgba(0,0,0,0.2), 0 2px 0 #b0bec5;
+    }
+
+    .garis-tengah {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: repeating-linear-gradient(90deg, #f1c40f 0px, #f1c40f 15px, #f39c12 15px, #f39c12 30px);
+      transform: translateY(-50%);
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    .mobil {
+      position: absolute;
+      bottom: 8px;
+      width: 54px;
+      height: 34px;
+      background: #e74c3c;
+      border-radius: 10px 14px 6px 6px;
+      box-shadow: 0 6px 0 #922b21, 0 8px 8px rgba(0,0,0,0.3);
+      transition: left 0.1s linear;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      z-index: 3;
+      border: 1px solid #fff3;
+    }
+
+    .mobil-kanan {
+      background: #2980b9;
+      box-shadow: 0 6px 0 #154360, 0 8px 8px rgba(0,0,0,0.3);
+    }
+
+    .mobil::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 6px;
+      width: 10px;
+      height: 10px;
+      background: #222;
+      border-radius: 50%;
+      box-shadow: 26px 0 0 #222;
+    }
+
+    .mobil span {
+      position: relative;
+      top: -4px;
+      text-shadow: 0 2px 2px black;
+    }
+
+    .label-pos {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: #1d3557;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0 10px;
+    }
+
+    .label-pos div {
+      background: #ffffffcc;
+      padding: 4px 12px;
+      border-radius: 30px;
+      backdrop-filter: blur(2px);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #4a627a;
+      margin-top: 18px;
+      opacity: 0.8;
+    }
+
+    /* untuk mobile */
+    @media (max-width: 420px) {
+      .card {
+        padding: 18px 14px 22px;
+        border-radius: 28px;
+      }
+      h1 { font-size: 1.5rem; }
+      .btn { font-size: 1.05rem; padding: 12px 16px; min-width: 120px; }
+      .mobil { width: 44px; height: 28px; }
+      .jalan { height: 62px; }
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <h1>
+    🚗 Mobil A & B
+    <span>FISIKA</span>
+  </h1>
+  <div class="sub">Gerak lurus • kecepatan & percepatan</div>
+
+  <!-- TOMBOL -->
+  <div class="tombol-group">
+    <button class="btn btn-soal" id="btnSoal"><i>📋</i> Soal</button>
+    <button class="btn btn-penyelesaian" id="btnPenyelesaian"><i>🧠</i> Penyelesaian</button>
+  </div>
+
+  <!-- PANEL SOAL -->
+  <div id="panelSoal" class="panel hidden">
+    <div class="soal-text">
+      <p>📌 <strong>Dua mobil A dan B</strong> terpisah sejauh <strong>100 meter</strong>.</p>
+      <p style="margin-top: 10px;">🚗 <strong>Mobil A</strong> bergerak ke <strong>kanan</strong> dengan kecepatan tetap <strong>5 m/s</strong>.</p>
+      <p>🚙 <strong>Mobil B</strong> bergerak ke <strong>kiri</strong> dengan kecepatan awal <strong>4 m/s</strong> dan percepatan <strong>2 m/s²</strong>.</p>
+      <p style="margin-top: 14px; background: #e3eefb; padding: 12px 14px; border-radius: 20px;">
+        ⏱️ <strong>Kapan</strong> dan <strong>di mana</strong> kedua mobil saling bertemu?
+      </p>
+    </div>
+  </div>
+
+  <!-- PANEL PENYELESAIAN + ANIMASI -->
+  <div id="panelPenyelesaian" class="panel hidden">
+    <div class="penyelesaian-content">
+      <!-- animasi -->
+      <div class="animasi-container">
+        <div class="jalan" id="jalan">
+          <div class="garis-tengah"></div>
+          <div class="mobil mobil-kiri" id="mobilA" style="left: 0%;">
+            <span>A</span>
+          </div>
+          <div class="mobil mobil-kanan" id="mobilB" style="left: calc(100% - 54px);">
+            <span>B</span>
+          </div>
+        </div>
+        <div class="label-pos">
+          <div>⬅️ A (5 m/s)</div>
+          <div>B (4 m/s + 2 m/s²) ➡️</div>
+        </div>
+      </div>
+
+      <!-- langkah penyelesaian -->
+      <div class="langkah">
+        <strong>🔹 Langkah 1 — Tetapkan acuan</strong><br>
+        Mobil A di kiri (x = 0), mobil B di kanan (x = 100 m).<br>
+        A bergerak ke kanan: <code>x_A = 5t</code><br>
+        B bergerak ke kiri dengan perlambatan? (percepatan 2 m/s² ke kiri),<br>
+        <code>x_B = 100 - (4t + ½·2·t²)</code> → <code>x_B = 100 - 4t - t²</code>
+      </div>
+
+      <div class="langkah">
+        <strong>🔹 Langkah 2 — Syarat bertemu</strong><br>
+        <code>x_A = x_B</code><br>
+        <code>5t = 100 - 4t - t²</code><br>
+        <code>t² + 9t - 100 = 0</code>
+      </div>
+
+      <div class="langkah">
+        <strong>🔹 Langkah 3 — Selesaikan persamaan kuadrat</strong><br>
+        <code>t² + 9t - 100 = 0</code><br>
+        <code>t = [-9 ± √(81 + 400)] / 2 = [-9 ± √481] / 2</code><br>
+        √481 ≈ 21,93 → ambil positif:<br>
+        <code>t = ( -9 + 21,93 ) / 2 = 12,93 / 2 = 6,465 s</code>
+      </div>
+
+      <div class="langkah">
+        <strong>🔹 Langkah 4 — Posisi bertemu</strong><br>
+        Gunakan x_A = 5t = 5 × 6,465 = <strong>32,325 m</strong> dari posisi awal A.<br>
+        (atau dari B: 100 - 32,325 = 67,675 m dari posisi awal B)
+      </div>
+
+      <div class="hasil-akhir">
+        ⏱️ Bertemu saat <span>t ≈ 6,47 s</span><br>
+        📍 Pada jarak <span>32,3 m</span> dari posisi awal A
+      </div>
+
+      <div style="font-size: 0.9rem; text-align: center; color: #2c5779;">
+        ⚡ Animasi di atas: A (merah) dan B (biru) bergerak hingga bertemu.
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    klik tombol untuk menampilkan soal / penyelesaian
+  </div>
+</div>
+
+<script>
+  (function() {
+    // elemen DOM
+    const btnSoal = document.getElementById('btnSoal');
+    const btnPenyelesaian = document.getElementById('btnPenyelesaian');
+    const panelSoal = document.getElementById('panelSoal');
+    const panelPenyelesaian = document.getElementById('panelPenyelesaian');
+    const mobilA = document.getElementById('mobilA');
+    const mobilB = document.getElementById('mobilB');
+    const jalan = document.getElementById('jalan');
+
+    // state animasi
+    let animationFrame = null;
+    let animasiAktif = false;
+
+    // fungsi menghentikan animasi
+    function stopAnimasi() {
+      if (animationFrame) {
+        cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+      animasiAktif = false;
+    }
+
+    // reset posisi mobil ke awal (0% untuk A, 100% - lebar mobil untuk B)
+    function resetPosisiMobil() {
+      // mobil A di paling kiri (0%)
+      mobilA.style.left = '0%';
+      // mobil B di paling kanan: kita gunakan calc(100% - 54px) karena lebar mobil 54px
+      // Tapi untuk konsistensi, kita atur left dengan persentase: 100% - lebar mobil.
+      // Lebar mobil 54px, tapi kita bisa pakai style left: 100% dan margin-left: -54px? 
+      // Lebih mudah: kita atur left dalam pixel berdasarkan lebar jalan.
+      // Namun karena jalan responsif, kita pakai perhitungan dinamis.
+      // Kita gunakan left dalam persen, tapi kita perlu offset lebar mobil.
+      // Kita atur left awal B = 100% - (lebar mobil / lebar jalan * 100)%. 
+      // Tapi karena kita tidak tahu lebar jalan tepatnya, kita pakai pixel via getBoundingClientRect.
+      // Kita panggil fungsi penyesuaian.
+      sesuaikanPosisiB();
+    }
+
+    // menyesuaikan posisi B agar tepat di ujung kanan
+    function sesuaikanPosisiB() {
+      const lebarJalan = jalan.clientWidth;
+      const lebarMobil = mobilB.clientWidth; // 54px atau 44px di mobile
+      if (lebarJalan > 0) {
+        const leftPersen = ((lebarJalan - lebarMobil) / lebarJalan) * 100;
+        mobilB.style.left = leftPersen + '%';
+      } else {
+        mobilB.style.left = 'calc(100% - 54px)'; // fallback
+      }
+    }
+
+    // mulai animasi pergerakan mobil
+    function mulaiAnimasi() {
+      stopAnimasi(); // hentikan animasi sebelumnya
+      resetPosisiMobil();
+
+      // Pastikan lebar jalan sudah terhitung
+      const lebarJalan = jalan.clientWidth;
+      const lebarMobilA = mobilA.clientWidth;
+      const lebarMobilB = mobilB.clientWidth;
+
+      // Jika lebar jalan 0 (belum tampil?), beri jeda
+      if (lebarJalan === 0) {
+        setTimeout(() => mulaiAnimasi(), 50);
+        return;
+      }
+
+      // total waktu animasi (perkiraan) - kita percepat menjadi 6 detik agar tidak membosankan
+      // tapi sesuai perhitungan fisika: bertemu di t ≈ 6.465 s. kita percepat 1.2x biar cepat? 
+      // Kita gunakan durasi 6.5 detik agar terasa seperti waktu nyata (1 s = 1 s). 
+      // Tapi durasi 6.5 detik cukup lama, kita buat 5 detik saja dengan skala 1.3? 
+      // Biar tidak membosankan, kita gunakan durasi 4.5 detik (percepatan 1.44x).
+      // Namun nilai t tetap 6.465 s, kita animasikan sesuai proporsi.
+      const totalWaktuFisika = 6.465; // detik
+      const durasiAnimasi = 5.0; // detik (percepatan ~1.29x)
+
+      const startTime = performance.now();
+
+      // posisi awal (dalam persen)
+      const startAPersen = 0; // 0%
+      const startBPersen = ((lebarJalan - lebarMobilB) / lebarJalan) * 100;
+
+      // posisi akhir (bertemu) dalam persen terhadap lebar jalan
+      // x_A = 32.325 m dari total 100 m => 32.325% dari lebar jalan
+      // tapi kita harus perhitungkan bahwa mobil A memiliki lebar, sehingga posisi kiri mobil A (left) 
+      // seharusnya 32.325% dari lebar jalan? Sebenarnya posisi titik tengah? Kita anggap titik depan?
+      // Supaya visual bagus, kita anggap posisi kiri mobil (left) mewakili posisi x.
+      // Maka saat bertemu, mobil A left = (32.325 / 100) * lebarJalan? 
+      // Tapi itu bisa membuat mobil B juga di posisi yang sama. Kita atur agar bumper bertemu.
+      // Kita gunakan pendekatan: mobil A left = persen * lebarJalan, mobil B left = persen * lebarJalan - lebarMobilB? 
+      // Agar mereka tidak tumpang tindih sempurna, kita atur agar bumper depan bertemu.
+      // Mobil A bergerak ke kanan, mobil B ke kiri. Kita tempatkan sehingga ujung kanan mobil A 
+      // bertemu ujung kiri mobil B.
+      // Posisi x_A = 32.325 m (dari kiri), berarti ujung kanan mobil A ada di x = 32.325 m.
+      // Maka left mobil A = (x_A / 100) * lebarJalan - lebarMobilA? 
+      // Karena left adalah jarak dari kiri jalan ke sisi kiri mobil.
+      // Agar ujung kanan mobil A (left + lebarMobilA) = (x_A/100)*lebarJalan.
+      // Jadi leftA = (x_A/100)*lebarJalan - lebarMobilA.
+      // Namun jika kita menggunakan left dalam persen, lebih mudah:
+      // Kita ingin ujung kanan mobil A = 32.325% dari lebar jalan.
+      // Maka leftA_persen = ( (32.325/100) * lebarJalan - lebarMobilA ) / lebarJalan * 100.
+      // Tapi karena lebarMobilA dalam pixel dan lebarJalan berubah, kita hitung dinamis saat animasi.
+      // Untuk kesederhanaan, kita animasikan left dalam persen tanpa memperhitungkan lebar mobil (hanya perkiraan visual).
+      // Tapi agar akurat, kita animasikan posisi dengan perhitungan pixel.
+      
+      // Kita gunakan pendekatan pixel untuk akurasi.
+      function animate(time) {
+        const elapsed = (time - startTime) / 1000; // detik
+        let progress = Math.min(elapsed / durasiAnimasi, 1); // 0..1
+
+        // Waktu fisika yang sesuai
+        const tFisika = progress * totalWaktuFisika; // 0..6.465
+
+        // Posisi A: x_A = 5 * tFisika (meter)
+        const xA = 5 * tFisika;
+        // Posisi B: x_B = 100 - (4*tFisika + tFisika^2)
+        const xB = 100 - (4 * tFisika + tFisika * tFisika);
+
+        // Konversi ke left dalam pixel (0..lebarJalan)
+        // Kita anggap posisi x adalah titik di jalan (0-100 m).
+        // Mobil A: kita posisikan sehingga ujung kanan mobil A berada di xA.
+        // Mobil B: ujung kiri mobil B berada di xB.
+        // Tapi karena mobil B bergerak ke kiri, ujung kiri mobil B adalah xB.
+        // Maka left mobil A = (xA / 100) * lebarJalan - lebarMobilA;
+        // left mobil B = (xB / 100) * lebarJalan;
+        // Ini akan membuat mereka bertemu di xA = xB = 32.325 m.
+        // Saat bertemu: leftA = (32.325/100)*lebarJalan - lebarMobilA
+        // leftB = (32.325/100)*lebarJalan
+        // Maka ujung kanan A = leftA + lebarMobilA = (32.325/100)*lebarJalan = leftB (ujung kiri B)
+        // Sempurna.
+
+        let leftA_px = (xA / 100) * lebarJalan - lebarMobilA;
+        let leftB_px = (xB / 100) * lebarJalan;
+
+        // Batasi agar tidak keluar dari jalan (opsional)
+        leftA_px = Math.max(0, Math.min(leftA_px, lebarJalan - lebarMobilA));
+        leftB_px = Math.max(0, Math.min(leftB_px, lebarJalan - lebarMobilB));
+
+        mobilA.style.left = leftA_px + 'px';
+        mobilB.style.left = leftB_px + 'px';
+
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(animate);
+        } else {
+          // Pastikan posisi akhir tepat
+          // Pada t = 6.465, xA = 32.325, xB = 32.325
+          // Tapi karena pembulatan, kita set manual agar rapi
+          const xAkhir = 32.325;
+          let leftA_akhir = (xAkhir / 100) * lebarJalan - lebarMobilA;
+          let leftB_akhir = (xAkhir / 100) * lebarJalan;
+          leftA_akhir = Math.max(0, Math.min(leftA_akhir, lebarJalan - lebarMobilA));
+          leftB_akhir = Math.max(0, Math.min(leftB_akhir, lebarJalan - lebarMobilB));
+          mobilA.style.left = leftA_akhir + 'px';
+          mobilB.style.left = leftB_akhir + 'px';
+          animasiAktif = false;
+        }
+      }
+
+      animationFrame = requestAnimationFrame(animate);
+      animasiAktif = true;
+    }
+
+    // ketika ukuran window berubah, sesuaikan posisi jika animasi tidak berjalan
+    window.addEventListener('resize', function() {
+      if (!animasiAktif && panelPenyelesaian.classList.contains('hidden') === false) {
+        // Jika panel penyelesaian terbuka tapi animasi tidak jalan, set posisi akhir agar tetap proporsional
+        // Kita set ke posisi bertemu (t = 6.465)
+        const lebarJalan = jalan.clientWidth;
+        const lebarMobilA = mobilA.clientWidth;
+        const lebarMobilB = mobilB.clientWidth;
+        if (lebarJalan > 0) {
+          const xAkhir = 32.325;
+          let leftA = (xAkhir / 100) * lebarJalan - lebarMobilA;
+          let leftB = (xAkhir / 100) * lebarJalan;
+          leftA = Math.max(0, Math.min(leftA, lebarJalan - lebarMobilA));
+          leftB = Math.max(0, Math.min(leftB, lebarJalan - lebarMobilB));
+          mobilA.style.left = leftA + 'px';
+          mobilB.style.left = leftB + 'px';
+        } else {
+          // fallback
+          mobilA.style.left = 'calc(32.325% - 54px)';
+          mobilB.style.left = '32.325%';
+        }
+      } else if (panelPenyelesaian.classList.contains('hidden') === false && !animasiAktif) {
+        // panggil penyesuaian ringan
+        sesuaikanPosisiB();
+      }
+    });
+
+    // ========== EVENT TOMBOL ==========
+    btnSoal.addEventListener('click', function() {
+      // Sembunyikan penyelesaian, tampilkan soal
+      panelPenyelesaian.classList.add('hidden');
+      panelSoal.classList.remove('hidden');
+      stopAnimasi();
+      // reset tampilan mobil (sembunyikan aja tidak masalah, tapi kita biarkan)
+    });
+
+    btnPenyelesaian.addEventListener('click', function() {
+      // Sembunyikan soal, tampilkan penyelesaian
+      panelSoal.classList.add('hidden');
+      panelPenyelesaian.classList.remove('hidden');
+
+      // Jalankan animasi setelah panel terlihat (butuh waktu render)
+      // Gunakan setTimeout kecil agar layout sudah terbentuk
+      setTimeout(() => {
+        // pastikan ukuran jalan sudah ada
+        if (jalan.clientWidth > 0) {
+          mulaiAnimasi();
+        } else {
+          // coba lagi
+          setTimeout(() => mulaiAnimasi(), 100);
+        }
+      }, 30);
+    });
+
+    // Inisialisasi awal: tampilkan soal? kita biarkan kosong, tapi beri tampilan default
+    // Tampilkan soal secara default agar user langsung melihat soal
+    window.addEventListener('load', function() {
+      panelSoal.classList.remove('hidden');
+      panelPenyelesaian.classList.add('hidden');
+      // set posisi mobil ke kondisi awal (tidak terlihat karena panel hidden)
+      resetPosisiMobil();
+    });
+
+    // perbaiki posisi B saat resize
+    window.addEventListener('resize', function() {
+      if (panelPenyelesaian.classList.contains('hidden')) {
+        // tidak perlu
+      } else {
+        if (!animasiAktif) {
+          // set posisi akhir (bertemu)
+          const lebarJalan = jalan.clientWidth;
+          if (lebarJalan > 0) {
+            const lebarMobilA = mobilA.clientWidth;
+            const lebarMobilB = mobilB.clientWidth;
+            const xAkhir = 32.325;
+            let leftA = (xAkhir / 100) * lebarJalan - lebarMobilA;
+            let leftB = (xAkhir / 100) * lebarJalan;
+            leftA = Math.max(0, Math.min(leftA, lebarJalan - lebarMobilA));
+            leftB = Math.max(0, Math.min(leftB, lebarJalan - lebarMobilB));
+            mobilA.style.left = leftA + 'px';
+            mobilB.style.left = leftB + 'px';
+          }
+        }
+      }
+    });
+
+    // Panggil sekali untuk set awal
+    resetPosisiMobil();
+  })();
+</script>
+</body>
+</html>
